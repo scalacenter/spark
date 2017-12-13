@@ -91,3 +91,9 @@ spark-warehouse/
 *.Rproj.*
 
 .Rproj.user
+
+# For bloop's integration tests
+*.config
+test-config.sbt
+test
+base-directory
