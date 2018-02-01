@@ -29,7 +29,7 @@ import sbt.Keys._
 import sbtunidoc.Plugin.UnidocKeys.unidocGenjavadocVersion
 import com.simplytyped.Antlr4Plugin._
 import com.typesafe.sbt.pom.{PomBuild, SbtPomKeys}
-import com.typesafe.tools.mima.plugin.MimaKeys
+// import com.typesafe.tools.mima.plugin.MimaKeys
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import org.scalastyle.sbt.Tasks
 
@@ -315,7 +315,7 @@ object SparkBuild extends PomBuild {
   }
 
   mimaProjects.foreach { x =>
-    enable(MimaBuild.mimaSettings(sparkHome, x))(x)
+    // enable(MimaBuild.mimaSettings(sparkHome, x))(x)
   }
 
   /* Generate and pick the spark build info from extra-resources */
@@ -468,16 +468,16 @@ object OldDeps {
 
   lazy val project = Project("oldDeps", file("dev"), settings = oldDepsSettings)
 
-  lazy val allPreviousArtifactKeys = Def.settingDyn[Seq[Set[ModuleID]]] {
-    SparkBuild.mimaProjects
-      .map { project => MimaKeys.mimaPreviousArtifacts in project }
-      .map(k => Def.setting(k.value))
-      .join
-  }
+  // lazy val allPreviousArtifactKeys = Def.settingDyn[Seq[Set[ModuleID]]] {
+  //   SparkBuild.mimaProjects
+  //     .map { project => MimaKeys.mimaPreviousArtifacts in project }
+  //     .map(k => Def.setting(k.value))
+  //     .join
+  // }
 
   def oldDepsSettings() = Defaults.coreDefaultSettings ++ Seq(
-    name := "old-deps",
-    libraryDependencies := allPreviousArtifactKeys.value.flatten
+    name := "old-deps"
+    // libraryDependencies := allPreviousArtifactKeys.value.flatten
   )
 }
 
