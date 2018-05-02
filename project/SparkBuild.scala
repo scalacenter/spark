@@ -552,8 +552,9 @@ object Hive {
 
 object Assembly {
   import sbtassembly.AssemblyUtils._
-  import sbtassembly.Plugin._
-  import AssemblyKeys._
+  import sbtassembly.AssemblyPlugin._
+  import sbtassembly.AssemblyKeys._
+  import sbtassembly.MergeStrategy
 
   val hadoopVersion = taskKey[String]("The version of hadoop that spark is compiled against.")
 
@@ -587,8 +588,8 @@ object Assembly {
 }
 
 object PySparkAssembly {
-  import sbtassembly.Plugin._
-  import AssemblyKeys._
+  import sbtassembly.AssemblyPlugin._
+  import sbtassembly.AssemblyKeys._
   import java.util.zip.{ZipOutputStream, ZipEntry}
 
   lazy val settings = Seq(
