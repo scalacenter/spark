@@ -138,9 +138,9 @@ private[joins] class UnsafeHashedRelation(
 
   override def get(key: InternalRow): Iterator[InternalRow] = {
     val unsafeKey = key.asInstanceOf[UnsafeRow]
-    val map = binaryMap  // avoid the compiler error
-    val loc = new map.Location  // this could be allocated in stack
-    binaryMap.safeLookup(unsafeKey.getBaseObject, unsafeKey.getBaseOffset,
+    val map: org.apache.spark.unsafe.map.BytesToBytesMap = binaryMap
+    val loc: map.Location = (new map.Location).asInstanceOf[map.Location]
+    map.safeLookup(unsafeKey.getBaseObject, unsafeKey.getBaseOffset,
       unsafeKey.getSizeInBytes, loc, unsafeKey.hashCode())
     if (loc.isDefined) {
       new Iterator[UnsafeRow] {
@@ -159,9 +159,9 @@ private[joins] class UnsafeHashedRelation(
 
   def getValue(key: InternalRow): InternalRow = {
     val unsafeKey = key.asInstanceOf[UnsafeRow]
-    val map = binaryMap  // avoid the compiler error
-    val loc = new map.Location  // this could be allocated in stack
-    binaryMap.safeLookup(unsafeKey.getBaseObject, unsafeKey.getBaseOffset,
+    val map: org.apache.spark.unsafe.map.BytesToBytesMap = binaryMap
+    val loc: map.Location = new map.Location
+    map.safeLookup(unsafeKey.getBaseObject, unsafeKey.getBaseOffset,
       unsafeKey.getSizeInBytes, loc, unsafeKey.hashCode())
     if (loc.isDefined) {
       resultRow.pointTo(loc.getValueBase, loc.getValueOffset, loc.getValueLength)
